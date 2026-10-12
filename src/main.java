@@ -28,13 +28,12 @@
           return balance;
       }
 
-      static void historyOfTransaction( int[] transDeposit,  int[] transBalance,  int[] transWithdraw,int size){
-                for(int x = 0;x<size;x++){
-                           if(transBalance[x]>0){
-                               System.out.println( (x+1) + " Transaction  deposit : " + transDeposit[x] + " balance : " + transBalance[x] + " withdraw : " + transWithdraw[x] );
-                           }
+      static void historyOfTransaction( int[] transDeposit,  int[] transBalance,  int[] transWithdraw,int i){
 
-                        System.out.println();
+             for(int x = 0;x<i;x++){
+
+                 System.out.println( x  + " Transaction  deposit : " + transDeposit[x] + " balance : " + transBalance[x] + " withdraw : " + transWithdraw[x] );
+
 
                 }
 
@@ -53,6 +52,17 @@
           }
           System.out.println("Total withdraws of your account : " + sum);
       }
+      static void MaximumWithdrawal(int[] transWithdraw,int i){
+           int largest = Integer.MIN_VALUE;
+           int j = 0;
+           while(j<i){
+               if(transWithdraw[j]<largest){
+                   largest = transWithdraw[j];
+               }
+               System.out.println("The maximum withdrawal = " + largest);
+           }
+      }
+
 
     public static void main(String[] args) {
 
@@ -78,36 +88,52 @@
         int[] transDeposit = new int[size];
         int[] transBalance = new int[size];
         int[] transWithdraw =  new int[size];
-      while(i<=size){
-          System.out.println("Search features : ");
-          System.out.println("1.Deposit");
-          System.out.println("2.Withdraw");
-          System.out.println("3.Balance");
-          System.out.println("4.check transacton history");
-          System.out.println("5.Total deposit");
-          System.out.println("6.Total withdraw");
-          System.out.println();
+        System.out.println("Search features : ");
+        System.out.println("1.Deposit");
+        System.out.println("2.Withdraw");
+        System.out.println("3.Balance");
+        System.out.println("4.check transacton history");
+        System.out.println("5.Total deposit");
+        System.out.println("6.Total withdraw");
+        System.out.println("7.Maximum withdrawal");
+        System.out.println();
+      while(i<size){
           System.out.print("Enter your choice : " );
            int choice = input.nextInt();
+           boolean istransaction = false;
            if(choice == 1){
                System.out.print("Enter your deposit : ");
                  int deposit = input.nextInt();
-                     System.out.println("You have deposited " + deposit);
-                     balance =  deposit(balance,deposit);
-                     transDeposit[i] = deposit;
-                     transBalance[i] = balance;
-                     transWithdraw[i] = 0;
+                     if(deposit<=0){
+                         System.out.println("You deposit is invalid, ,try again");
+                     }
+                     else if(deposit>balance||deposit<balance){
+                         System.out.println("You have deposited " + deposit);
+                         balance =  deposit(balance,deposit);
+                         transDeposit[i] = deposit;
+                         transBalance[i] = balance;
+                         transWithdraw[i] = 0;
+                         istransaction = true;
+                     }
 
 
            }
            else if(choice == 2){
                System.out.print("Enter your withdraw : ");
                 int withdraw = input.nextInt();
-                    balance = withdraw(balance,withdraw);
-                    transDeposit[i] = 0;
-                    transBalance[i] = balance;
-                    transWithdraw[i] =  withdraw;
-
+                   if(withdraw<=0){
+                       System.out.println("Your withdraw is invalid ,try again");
+                   }
+                   else if(withdraw<=balance){
+                       balance = withdraw(balance,withdraw);
+                       transDeposit[i] = 0;
+                       transBalance[i] = balance;
+                       transWithdraw[i] =  withdraw;
+                       istransaction = true;
+                   }
+                   else if(withdraw>balance){
+                       System.out.println("Your are withdrawing out of balance");
+                   }
 
            }
            else if(choice == 3){
@@ -116,7 +142,8 @@
            else if(choice == 4){
                System.out.println("TRANSACTION HISTORY");
                System.out.println();
-               historyOfTransaction(transDeposit, transBalance, transWithdraw, size);
+               historyOfTransaction(transDeposit, transBalance, transWithdraw, i);
+
            }
            else if (choice == 5){
                System.out.println("Total deposit : ");
@@ -125,26 +152,20 @@
            else if (choice == 6){
                System.out.println("Total withdraw : ");
                Totalwithdraw(transWithdraw,size);
+
+           }
+           else if (choice == 7){
+               System.out.println("Maximum withdrawal : ");
+               MaximumWithdrawal(transWithdraw,i);
+
+
            }
 
-          i++;
+           if(istransaction){
+               i++;
+           }
+
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }
