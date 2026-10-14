@@ -4,13 +4,12 @@
 
   public class main {
 
-    static void createAccount(String name,String email,String phone,String password ){
+    static void createAccount(String name,String email,String phone){
            System.out.println("*********YOUR ACCOUNT IS CREATED*********");
             System.out.println();
            System.out.println("your name : " + name);
            System.out.println("your email : " + email);
             System.out.println("your phone number : " + phone);
-           System.out.println("your password : " + password);
           System.out.println();
          System.out.println("************************************");
     }
@@ -29,39 +28,56 @@
       }
 
       static void historyOfTransaction( int[] transDeposit,  int[] transBalance,  int[] transWithdraw,int i){
+             int x = 0;
+             for( x = x+1;x<i;x++){
 
-             for(int x = 0;x<i;x++){
-
-                 System.out.println( x  + " Transaction  deposit : " + transDeposit[x] + " balance : " + transBalance[x] + " withdraw : " + transWithdraw[x] );
+                 System.out.println( x + " Transaction  deposit : " + transDeposit[x] + " balance : " + transBalance[x] + " withdraw : " + transWithdraw[x] );
 
 
                 }
 
       }
-      static void Totaldeposits(int[] transDeposit,int size){
+      static void Totaldeposits(int[] transDeposit,int i ){
          int sum = 0;
-         for(int y = 0;y<size;y++){
+         for(int y = 0;y<i;y++){
              sum = sum +transDeposit[y];
          }
           System.out.println("Total deposits of your account : " + sum);
       }
-      static void Totalwithdraw(int[] transWithdraw,int size){
+      static void Totalwithdraw(int[] transWithdraw,int i){
           int sum = 0;
-          for(int y = 0;y<size;y++){
+          for(int y = 0;y<i;y++){
               sum = sum + transWithdraw[y];
           }
           System.out.println("Total withdraws of your account : " + sum);
       }
       static void MaximumWithdrawal(int[] transWithdraw,int i){
-           int largest = Integer.MIN_VALUE;
-           int j = 0;
-           while(j<i){
-               if(transWithdraw[j]<largest){
-                   largest = transWithdraw[j];
-               }
-               System.out.println("The maximum withdrawal = " + largest);
-           }
+          int max = 0;
+          int j = 0;
+          while(j<i){
+              if(transWithdraw[j]>max){
+                  max = transWithdraw[j];
+              }
+              j++;
+          }
+          System.out.println("The maximum withdrawal from your transactions in account = " + max);
       }
+       static void searchTransaction(int search,int[] transDeposit ,int[] transBalance ,int[] transWithdraw , int i ){
+         boolean isSearch = false;
+         for(int x = 1;x<i;x++){
+             if(search == x){
+                 System.out.println( x  + " Transaction  deposit : " + transDeposit[x] + " balance : " + transBalance[x] + " withdraw : " + transWithdraw[x] );
+                 isSearch = true;
+                 break;
+             }
+         }
+         if(!isSearch){
+             System.out.println("Your transaction are not found ");
+         }
+
+
+       }
+
 
 
     public static void main(String[] args) {
@@ -79,7 +95,7 @@
       String phone = input.nextLine();
       System.out.print("Enter your secure password (@#$) : ");
       String password = input.nextLine();
-      createAccount(name,email,phone,password);
+      createAccount(name,email,phone);
       System.out.println();
 
       int balance = 0;
@@ -96,6 +112,8 @@
         System.out.println("5.Total deposit");
         System.out.println("6.Total withdraw");
         System.out.println("7.Maximum withdrawal");
+        System.out.println("8.Search transactions");
+        System.out.println("9.Exit");
         System.out.println();
       while(i<size){
           System.out.print("Enter your choice : " );
@@ -107,7 +125,7 @@
                      if(deposit<=0){
                          System.out.println("You deposit is invalid, ,try again");
                      }
-                     else if(deposit>balance||deposit<balance){
+                     else{
                          System.out.println("You have deposited " + deposit);
                          balance =  deposit(balance,deposit);
                          transDeposit[i] = deposit;
@@ -147,11 +165,11 @@
            }
            else if (choice == 5){
                System.out.println("Total deposit : ");
-               Totaldeposits(transDeposit,size);
+               Totaldeposits(transDeposit,i);
            }
            else if (choice == 6){
                System.out.println("Total withdraw : ");
-               Totalwithdraw(transWithdraw,size);
+               Totalwithdraw(transWithdraw,i);
 
            }
            else if (choice == 7){
@@ -159,6 +177,16 @@
                MaximumWithdrawal(transWithdraw,i);
 
 
+           }
+           else if(choice == 8){
+               System.out.print("Search your transaction : ");
+               int search = input.nextInt();
+               searchTransaction(search,transDeposit, transBalance , transWithdraw,i);
+
+           }
+           else if(choice == 9){
+               System.out.println("BYE BYE");
+               break;
            }
 
            if(istransaction){
